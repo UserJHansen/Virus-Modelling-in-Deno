@@ -1,0 +1,4 @@
+/output/*.txt
+/jsoninterpretter/*.py
+/jsoninterpretter/.vscode*
+/forNodeJs.js
