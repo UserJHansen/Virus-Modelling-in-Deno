@@ -72,7 +72,7 @@ export class Person {
     neighbours = [];
     group;
 
-    states = { "Healthy": "⬜️", "Removed": "🔲", "Infected": "⬛️" }
+    states = { "Healthy": "🟨", "Removed": "🔲", "Infected": "🟫" }
     state = this.states.Healthy;
 
     constructor(id, group) {
