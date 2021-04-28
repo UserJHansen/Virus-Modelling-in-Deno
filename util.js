@@ -22,3 +22,13 @@ export function MakeString(Board) {
     return outputStr;
 }
 
+
+export function CountInfected(Board) {
+    let outputNum = 0
+    Board.forEach((column) => {
+        column.forEach((BoardPerson) => {
+            outputNum += BoardPerson.state == "🟫" ? 1 : 0
+        })
+    })
+    return outputNum;
+}
