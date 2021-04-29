@@ -1,29 +1,31 @@
-// const { performance } = require('perf_hooks');
-// fs = require('fs');
+// const { performance } = require('perf_hooks')
+// fs = require('fs')
 // const Deno = {}
 // Deno.writeTextFile = fs.writeFileSync
 
-import { MakeString, CountInfected, roundOff } from './util.js';
+import { MakeString, CountInfected, roundOff } from './util.js'
 import { Group } from './Group.js'
 
 var iterations = 20
 var size = 64   // Must be Square
 var NumberImmune = 0
 var samples = 1000
-var NumberInfected = 1;
+var NumberInfected = 1
 
 var parts = 100
 
 const forGraphing = {}
 const forProgressionGraphing = {}
 
-const Debugging = false;
-if (Debugging) await new Promise(resolve => setTimeout(resolve, 3000));
+const Debugging = false
+const LogPositions = false
+
+if (Debugging) await new Promise(resolve => setTimeout(resolve, 3000))
 
 for (let a = 0; a < parts; a++) {
     const FinalResults = {}
     const ArrayResults = {}
-    let group;
+    let group
     let t0, t1
     
     if (Debugging) t0 = performance.now()
@@ -37,7 +39,7 @@ for (let a = 0; a < parts; a++) {
             ArrayResults[(a + 1)][(i + 1)] = ArrayResults[(a + 1)][(i + 1)] || {}
             ArrayResults[(a + 1)][(i + 1)][NumberImmune] = group.SampleVirus(iterations)
             if (Debugging) {
-                FinalResults["Part " + (a + 1) + " Sample " + (i + 1) + " With " + NumberImmune + " Immune"] = ArrayResults[(a + 1)][(i + 1)][NumberImmune];
+                FinalResults["Part " + (a + 1) + " Sample " + (i + 1) + " With " + NumberImmune + " Immune"] = ArrayResults[(a + 1)][(i + 1)][NumberImmune]
                 console.log(`Finished Number of Immune ${NumberImmune}`)
             }
         }
@@ -47,27 +49,29 @@ for (let a = 0; a < parts; a++) {
         }
     }
 
-    let BetterResults = ""
-    for (const a in ArrayResults)
-        for (const b in ArrayResults[a])
-            for (const c in ArrayResults[a][b]) {
-                forGraphing[c + "count"] = forGraphing[c + "count"] || 0
-                forGraphing[Number(c)] = forGraphing[c] || 0
-                forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
-                forGraphing[c + "count"]++;
-                BetterResults += "Part " + (a + 1) + " Sample " + (b + 1) + " With " + c + " Immune\n"
-                for (const d in ArrayResults[a][b][c]) {
-                    BetterResults += `Iteration ${d} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
-                    forProgressionGraphing[c + "count"] = forProgressionGraphing[c + "count"] || []
-                    forProgressionGraphing[Number(c)] = forProgressionGraphing[c] || []
-                    forProgressionGraphing[c + "count"][d] = forProgressionGraphing[c + "count"][d] || []
-                    forProgressionGraphing[Number(c)][d] = forProgressionGraphing[c][d] || []
-                    forProgressionGraphing[Number(c)][d] = ((forProgressionGraphing[c][d] * forProgressionGraphing[c + "count"][d]) + CountInfected(ArrayResults[a][b][c][d])) / (forProgressionGraphing[c + "count"][d] + 1)
-                    forProgressionGraphing[c + "count"][d]++;
+    if (LogPositions) {
+        let BetterResults = ""
+        for (const a in ArrayResults)
+            for (const b in ArrayResults[a])
+                for (const c in ArrayResults[a][b]) {
+                    forGraphing[c + "count"] = forGraphing[c + "count"] || 0
+                    forGraphing[Number(c)] = forGraphing[c] || 0
+                    forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
+                    forGraphing[c + "count"]++
+                    BetterResults += "Part " + (a + 1) + " Sample " + (b + 1) + " With " + c + " Immune\n"
+                    for (const d in ArrayResults[a][b][c]) {
+                        BetterResults += `Iteration ${d} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
+                        forProgressionGraphing[c + "count"] = forProgressionGraphing[c + "count"] || []
+                        forProgressionGraphing[Number(c)] = forProgressionGraphing[c] || []
+                        forProgressionGraphing[c + "count"][d] = forProgressionGraphing[c + "count"][d] || []
+                        forProgressionGraphing[Number(c)][d] = forProgressionGraphing[c][d] || []
+                        forProgressionGraphing[Number(c)][d] = ((forProgressionGraphing[c][d] * forProgressionGraphing[c + "count"][d]) + CountInfected(ArrayResults[a][b][c][d])) / (forProgressionGraphing[c + "count"][d] + 1)
+                        forProgressionGraphing[c + "count"][d]++
+                    }
                 }
-            }
+        }
 
-    Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
+    if (LogPositions) Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
     if (Debugging) {
         Deno.writeTextFile(`./output/outputArrs/Part${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
         t1 = performance.now()
@@ -79,7 +83,7 @@ let GraphingResults = []
 
 for (const i in forGraphing) {
     if (forGraphing[i] !== samples)
-        GraphingResults.push(forGraphing[i]);
+        GraphingResults.push(forGraphing[i])
 }
 Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(GraphingResults), () => { })
 
