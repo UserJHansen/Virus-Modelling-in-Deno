@@ -1,3 +1,5 @@
 /output/*.txt
 /output/*.csv
+/output/BetterResults/*.txt
+/output/outputArrs/*.txt
 /forNodeJs.js
