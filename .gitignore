@@ -1,4 +1,3 @@
 /output/*.txt
-/jsoninterpretter/*.py
-/jsoninterpretter/.vscode*
+/output/*.csv
 /forNodeJs.js

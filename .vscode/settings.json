@@ -7,5 +7,6 @@
         "Deno",
         "immunenum",
         "infectednum"
-    ]
+    ],
+    "python.pythonPath": "/usr/bin/python3"
 }

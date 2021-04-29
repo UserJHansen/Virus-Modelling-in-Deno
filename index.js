@@ -12,11 +12,12 @@ import { Group } from './Group.js'
 var iterations = 20;
 var size = 64   // Must be Square
 var NumberImmune = 0
-var samples = 10;
+var samples = 1000;
 var NumberInfected = 1;
 
-var parts = 1
+var parts = 100
 
+const forGraphing = {}
 for (let a = 0; a < parts; a++) {
     const FinalResults = {}
     const ArrayResults = {}
@@ -45,23 +46,22 @@ for (let a = 0; a < parts; a++) {
     }
 
 
-    const forGraphing = {}
     for (const a in ArrayResults)
         for (const b in ArrayResults[a])
             for (const c in ArrayResults[a][b]) {
                 forGraphing[c + "count"] = forGraphing[c + "count"] || 0
-                forGraphing[c] = forGraphing[c] || 0
-                forGraphing[c] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
+                forGraphing[Number(c)] = forGraphing[c] || 0
+                forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
                 forGraphing[c + "count"]++;
             }
     
 
 
-    Deno.writeTextFile(`./output/outputArrsPart${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
-    Deno.writeTextFile(`./output/BetterResultsPart${a + 1}.txt`, BetterResults, () => { })
-    Deno.writeTextFile(`./output/JSONforGraphPart${a + 1}.txt`, JSON.stringify(forGraphing), () => { })
+    // Deno.writeTextFile(`./output/outputArrsPart${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
+    // Deno.writeTextFile(`./output/BetterResultsPart${a + 1}.txt`, BetterResults, () => { })
     const t1 = performance.now()
     console.log(`Finished Part #${a + 1} in ${(t1 - t0)/1000} seconds.`)
 }
 
 console.log("DONE!")
+Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(forGraphing), () => { })
