@@ -83,7 +83,7 @@ let GraphingResults = []
 
 for (const i in forGraphing) {
     if (forGraphing[i] !== samples)
-        GraphingResults.push(forGraphing[i])
+        GraphingResults.push(roundOff(forGraphing[i],5))
 }
 Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(GraphingResults), () => { })
 

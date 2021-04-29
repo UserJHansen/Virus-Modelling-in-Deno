@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     plt.figure()
 
-    # This code uses the Chebyshev Polynomial Fitting Algorithm to create an Algorithmic Equation
+    # This code uses the NumPy Polynomial Fitting Algorithm to create an Algorithmic Equation
     fit = np.polyfit(np.array(range(len(data))), np.array(data), 4)
     a = fit[0]
     b = fit[1]
@@ -55,6 +55,39 @@ if __name__ == '__main__':
     plt.xlabel('No. Immune')
     plt.ylabel('No Infected (After 20 Cycles)')
     plt.title('Comparison between number of immune and infected people at 20 days')
+
+    f = open('output/JSONforProgressionGraph.txt',)
+
+    # returns JSON object as
+    # a dictionary
+    data = json.load(f)
+
+    # Closing file
+    f.close()
+
+    # Write the data into a csv file for excel
+    with open('output/ProgressionData.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        for line in data:
+            writer.writerows([data[line]])
+
+        csvfile.close()
+
+    plt.figure()
+
+    # Print data to Terminal
+    # print(data)
+
+    # plotting using plt.pyplot()
+    for line in data:
+        plt.plot(data[line], label=line)
+
+    # axis labeling and name
+    plt.xlabel('Time (days)')
+    plt.ylabel('No Infected')
+    plt.title(
+        'Comparison between number of infected and time for each number of immune')
+    plt.legend()
 
     # show the graph
     plt.show()
