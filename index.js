@@ -49,27 +49,27 @@ for (let a = 0; a < parts; a++) {
         }
     }
 
-    if (LogPositions) {
-        let BetterResults = ""
-        for (const a in ArrayResults)
-            for (const b in ArrayResults[a])
-                for (const c in ArrayResults[a][b]) {
-                    forGraphing[c + "count"] = forGraphing[c + "count"] || 0
-                    forGraphing[Number(c)] = forGraphing[c] || 0
-                    forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
-                    forGraphing[c + "count"]++
-                    BetterResults += "Part " + (a + 1) + " Sample " + (b + 1) + " With " + c + " Immune\n"
-                    for (const d in ArrayResults[a][b][c]) {
-                        BetterResults += `Iteration ${d} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
-                        forProgressionGraphing[c + "count"] = forProgressionGraphing[c + "count"] || []
-                        forProgressionGraphing[Number(c)] = forProgressionGraphing[c] || []
-                        forProgressionGraphing[c + "count"][d] = forProgressionGraphing[c + "count"][d] || []
-                        forProgressionGraphing[Number(c)][d] = forProgressionGraphing[c][d] || []
-                        forProgressionGraphing[Number(c)][d] = ((forProgressionGraphing[c][d] * forProgressionGraphing[c + "count"][d]) + CountInfected(ArrayResults[a][b][c][d])) / (forProgressionGraphing[c + "count"][d] + 1)
-                        forProgressionGraphing[c + "count"][d]++
-                    }
+    
+    let BetterResults = ""
+    for (const a in ArrayResults)
+        for (const b in ArrayResults[a])
+            for (const c in ArrayResults[a][b]) {
+                forGraphing[c + "count"] = forGraphing[c + "count"] || 0
+                forGraphing[Number(c)] = forGraphing[c] || 0
+                forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
+                forGraphing[c + "count"]++
+                if (LogPositions) BetterResults += "Part " + (a + 1) + " Sample " + (b + 1) + " With " + c + " Immune\n"
+                for (const d in ArrayResults[a][b][c]) {
+                    if (LogPositions) BetterResults += `Iteration ${d} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
+                    forProgressionGraphing[c + "count"] = forProgressionGraphing[c + "count"] || []
+                    forProgressionGraphing[Number(c)] = forProgressionGraphing[c] || []
+                    forProgressionGraphing[c + "count"][d] = forProgressionGraphing[c + "count"][d] || []
+                    forProgressionGraphing[Number(c)][d] = forProgressionGraphing[c][d] || []
+                    forProgressionGraphing[Number(c)][d] = ((forProgressionGraphing[c][d] * forProgressionGraphing[c + "count"][d]) + CountInfected(ArrayResults[a][b][c][d])) / (forProgressionGraphing[c + "count"][d] + 1)
+                    forProgressionGraphing[c + "count"][d]++
                 }
-        }
+            }
+        
 
     if (LogPositions) Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
     if (Debugging) {
