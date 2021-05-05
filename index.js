@@ -9,7 +9,7 @@ import { Group } from './Group.js'
 var iterations = 20
 var size = 64   // Must be Square
 var NumberImmune = 0
-var samples = 1000
+var samples = 10000
 var NumberInfected = 1
 
 var parts = 100
@@ -96,7 +96,16 @@ for (const i in forProgressionGraphing) {
         }
     }
 }
-    
+
 Deno.writeTextFile(`./output/JSONforProgressionGraph.txt`, JSON.stringify(GraphingResults), () => { })
+
+GraphingResults = []
+for (const i in forGraphing) {
+    if (forGraphing[i] !== samples) {
+        GraphingResults[i] = roundOff(size-i-forGraphing[i], 5)
+    }
+}
+
+Deno.writeTextFile(`./output/JSONforSavedGraph.txt`, JSON.stringify(GraphingResults), () => { })
 
 console.log("DONE!")

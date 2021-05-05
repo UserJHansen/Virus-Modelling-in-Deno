@@ -6,7 +6,11 @@
         "Arrs",
         "Deno",
         "immunenum",
-        "infectednum"
+        "infectednum",
+        "numpy",
+        "pyplot",
+        "xlabel",
+        "ylabel"
     ],
     "python.pythonPath": "/usr/bin/python3"
 }
