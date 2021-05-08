@@ -1,14 +1,5 @@
 import { Person } from './Person.js';
 import { GetNumberFromSquareArray, randomNumber } from './util.js';
-// import "https://deno.land/x/lodash@4.17.19/dist/lodash.js";
-// import 'https://raw.githubusercontent.com/Canop/JSON.prune/master/JSON.prune.js';
-
-// import {
-//     stringify as yamlStringify,
-// } from 'https://deno.land/std@0.82.0/encoding/yaml.ts';
-
-const _ = (self)._;
-
 
 export class Group  {
     Board = [];
@@ -49,19 +40,8 @@ export class Group  {
         }
 
         this.States = [ this.makeClone(this.Board.cells) ]
-        // this.States = [JSON.parse(JSON.prune(this.Board.cells, {
-        //     replacer: function (value, defaultValue, circular) {
-        //         if (circular) return '"-circular-"';
-        //         if (value === undefined) return '"-undefined-"'; 4
-        //         if (Array.isArray(value)) return '"-array(' + value.length + ')-"';
-        //         return defaultValue;
-        //     }
-        // })) ]
-        // this.States = [yamlStringify(this.Board.cells)]
 
         this.RecalculateNeighbours()
-
-        // console.log(`Finished Run #1`)
     }
 
     RecalculateNeighbours() {
@@ -76,7 +56,6 @@ export class Group  {
             const NewBoard = this.Board;
             for (const infected in NewBoard.infected) 
                 for (const neighbour in NewBoard.infected[infected].neighbours) {
-                    // console.log(NewBoard.infected[infected].neighbours)
                     if (NewBoard.infected[infected].neighbours[neighbour].state !== NewBoard.infected[infected].neighbours[neighbour].states.Removed)
                         if (NewBoard.infected[infected].neighbours[neighbour].state !== NewBoard.infected[infected].neighbours[neighbour].states.Infected) {
                             NewBoard.infected[infected].neighbours[neighbour].state = NewBoard.infected[infected].neighbours[neighbour].states.Infected
@@ -85,9 +64,7 @@ export class Group  {
                 }
 
             this.States.push(this.makeClone(NewBoard.cells))
-            // this.States.push(JSON.parse(JSON.prune(NewBoard.cells)))
             this.RecalculateNeighbours()
-            // console.log(`Finished Run #${i}`)
         }
 
         return this.States;
