@@ -1,7 +1,10 @@
-// const { performance } = require('perf_hooks')
-// fs = require('fs')
-// const Deno = {}
-// Deno.writeTextFile = fs.writeFileSync
+
+if (!Deno) {
+    const { performance } = require('perf_hooks')
+    fs = require('fs')
+    const Deno = {}
+    Deno.writeTextFile = fs.writeFileSync
+}
 
 import { MakeString, CountInfected, roundOff } from './util.js'
 import { Group } from './Group.js'
