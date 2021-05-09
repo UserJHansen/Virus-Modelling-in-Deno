@@ -2,4 +2,6 @@
 /output/*.csv
 /output/BetterResults/*.txt
 /output/outputArrs/*.txt
-/forNodeJs.js
+/NodeJS.js
+/VirusSimulation.exe
+/VirusSimulation

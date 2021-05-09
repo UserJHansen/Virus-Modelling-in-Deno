@@ -1,10 +1,12 @@
 
-if (!Deno) {
+if (typeof Deno === "undefined" && typeof require !== "undefined") {
     const { performance } = require('perf_hooks')
     fs = require('fs')
     const Deno = {}
     Deno.writeTextFile = fs.writeFileSync
 }
+
+var global = global || {}
 
 import { MakeString, CountInfected, roundOff } from './util.js'
 import { Group } from './Group.js'
@@ -12,7 +14,7 @@ import { Group } from './Group.js'
 var iterations = 20
 var size = 64   // Must be Square
 var NumberImmune = 0
-var samples = 10000
+var samples = 1000
 var NumberInfected = 1
 
 var parts = 100
@@ -20,10 +22,12 @@ var parts = 100
 const forGraphing = {}
 const forProgressionGraphing = {}
 
-const Debugging = false
-const LogPositions = false
+var Debugging = false
+var LogPositions = false
 
 if (Debugging) await new Promise(resolve => setTimeout(resolve, 3000))
+
+console.log("STARTED")
 
 for (let a = 0; a < parts; a++) {
     const FinalResults = {}
@@ -74,9 +78,10 @@ for (let a = 0; a < parts; a++) {
             }
         
 
-    if (LogPositions) Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
+    if (LogPositions && typeof require !== "undefined") Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
+    if (LogPositions && typeof require === "undefined") document.writeln(`Part ${a + 1}\n` + BetterResults)
     if (Debugging) {
-        Deno.writeTextFile(`./output/outputArrs/Part${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
+        if (typeof require !== "undefined") Deno.writeTextFile(`./output/outputArrs/Part${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
         t1 = performance.now()
         console.log(`Finished Part #${a + 1} in ${(t1 - t0)/1000} seconds.`)
     }
@@ -88,7 +93,8 @@ for (const i in forGraphing) {
     if (forGraphing[i] !== samples)
         GraphingResults.push(roundOff(forGraphing[i],5))
 }
-Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof require !== "undefined") Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof require === "undefined") document.writeln(`<br><b>JSON for The Graph</b><br>` + JSON.stringify(GraphingResults))
 
 GraphingResults = []
 for (const i in forProgressionGraphing) {
@@ -100,7 +106,8 @@ for (const i in forProgressionGraphing) {
     }
 }
 
-Deno.writeTextFile(`./output/JSONforProgressionGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof require !== "undefined") Deno.writeTextFile(`./output/JSONforProgressionGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof require === "undefined") document.writeln(`<br><b>JSON for The Progression Graph</b><br>` + JSON.stringify(GraphingResults))
 
 GraphingResults = []
 for (const i in forGraphing) {
@@ -109,6 +116,8 @@ for (const i in forGraphing) {
     }
 }
 
-Deno.writeTextFile(`./output/JSONforSavedGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof require !== "undefined") Deno.writeTextFile(`./output/JSONforSavedGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof require === "undefined") document.writeln(`<br><b>JSON for The Saved Graph</b><br>` + JSON.stringify(GraphingResults))
+
 
 console.log("DONE!")
