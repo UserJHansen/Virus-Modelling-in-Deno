@@ -14,9 +14,9 @@ import { Group } from './Group.js'
 var iterations = 20
 var size = 64   // Must be Square
 var NumberImmune = 0
-var samples = 1000
 var NumberInfected = 1
 
+var samples = 1000
 var parts = 100
 
 const forGraphing = {}
@@ -65,9 +65,9 @@ for (let a = 0; a < parts; a++) {
                 forGraphing[Number(c)] = forGraphing[c] || 0
                 forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
                 forGraphing[c + "count"]++
-                if (LogPositions) BetterResults += "Part " + (a + 1) + " Sample " + (b + 1) + " With " + c + " Immune\n"
+                if (LogPositions) BetterResults += "Part " + a + " Sample " + b + " With " + (Number(c)+1) + " Immune\n"
                 for (const d in ArrayResults[a][b][c]) {
-                    if (LogPositions) BetterResults += `Iteration ${d} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
+                    if (LogPositions) BetterResults += `Iteration ${Number(d)+1} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
                     forProgressionGraphing[c + "count"] = forProgressionGraphing[c + "count"] || []
                     forProgressionGraphing[Number(c)] = forProgressionGraphing[c] || []
                     forProgressionGraphing[c + "count"][d] = forProgressionGraphing[c + "count"][d] || []
@@ -78,10 +78,10 @@ for (let a = 0; a < parts; a++) {
             }
         
 
-    if (LogPositions && typeof require !== "undefined") Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
-    if (LogPositions && typeof require === "undefined") document.writeln(`Part ${a + 1}\n` + BetterResults)
+    if (LogPositions && (typeof require !== "undefined" || typeof fs === "undefined" && typeof document === "undefined")) Deno.writeTextFile(`./output/BetterResults/Part${a + 1}.txt`, BetterResults, () => { })
+    if (LogPositions && typeof document !== "undefined") document.writeln((`Part ${a + 1}\n` + BetterResults).replace(/\n/g, '<br>'));
     if (Debugging) {
-        if (typeof require !== "undefined") Deno.writeTextFile(`./output/outputArrs/Part${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
+        if (typeof require !== "undefined" || typeof fs === "undefined" && typeof document === "undefined") Deno.writeTextFile(`./output/outputArrs/Part${a + 1}.txt`, JSON.stringify(FinalResults), () => { })
         t1 = performance.now()
         console.log(`Finished Part #${a + 1} in ${(t1 - t0)/1000} seconds.`)
     }
@@ -93,8 +93,8 @@ for (const i in forGraphing) {
     if (forGraphing[i] !== samples)
         GraphingResults.push(roundOff(forGraphing[i],5))
 }
-if (typeof require !== "undefined") Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(GraphingResults), () => { })
-if (typeof require === "undefined") document.writeln(`<br><b>JSON for The Graph</b><br>` + JSON.stringify(GraphingResults))
+if (typeof require !== "undefined" || typeof fs === "undefined" && typeof document === "undefined") Deno.writeTextFile(`./output/JSONforGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof document !== "undefined") document.writeln(`<br><b>JSON for The Graph</b><br>` + JSON.stringify(GraphingResults))
 
 GraphingResults = []
 for (const i in forProgressionGraphing) {
@@ -106,8 +106,8 @@ for (const i in forProgressionGraphing) {
     }
 }
 
-if (typeof require !== "undefined") Deno.writeTextFile(`./output/JSONforProgressionGraph.txt`, JSON.stringify(GraphingResults), () => { })
-if (typeof require === "undefined") document.writeln(`<br><b>JSON for The Progression Graph</b><br>` + JSON.stringify(GraphingResults))
+if (typeof require !== "undefined" || typeof fs === "undefined" && typeof document === "undefined") Deno.writeTextFile(`./output/JSONforProgressionGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof document !== "undefined") document.writeln(`<br><b>JSON for The Progression Graph</b><br>` + JSON.stringify(GraphingResults))
 
 GraphingResults = []
 for (const i in forGraphing) {
@@ -116,8 +116,8 @@ for (const i in forGraphing) {
     }
 }
 
-if (typeof require !== "undefined") Deno.writeTextFile(`./output/JSONforSavedGraph.txt`, JSON.stringify(GraphingResults), () => { })
-if (typeof require === "undefined") document.writeln(`<br><b>JSON for The Saved Graph</b><br>` + JSON.stringify(GraphingResults))
+if (typeof require !== "undefined" || typeof fs === "undefined" && typeof document === "undefined") Deno.writeTextFile(`./output/JSONforSavedGraph.txt`, JSON.stringify(GraphingResults), () => { })
+if (typeof document !== "undefined") document.writeln(`<br><b>JSON for The Saved Graph</b><br>` + JSON.stringify(GraphingResults))
 
 
 console.log("DONE!")
