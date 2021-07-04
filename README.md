@@ -1,34 +1,34 @@
-# All-In-One Command: 
+# All-In-One Command
 
     deno run --allow-write https://raw.githubusercontent.com/UserJHansen/Virus-Modelling-in-Deno/master/index.js; pip3 install matplotlib numpy; python3 jsoninterpretter/index.py
 
-## Requirements: 
+## Requirements
+
 - [Deno](https://github.com/denoland/deno/releases/)
 - [Python](https://www.python.org/downloads/release/latest)
 
-# Compilation: 
+## Compilation
 
-## Windows:
+### Windows
 
     deno compile --unstable --allow-all --lite --output VirusSimulation --target x86_64-pc-windows-msvc index.js
 
-## Mac (x64):
+### Mac (x64)
 
     deno compile --unstable --allow-all --lite --output VirusSimulation --target x86_64-apple-darwin index.js
-    
-## Mac (M1):
+
+### Mac (M1)
 
     deno compile --unstable --allow-all --lite --output VirusSimulation --target aarch64-apple-darwin index.js
 
-## Linux:
+### Linux
 
     deno compile --unstable --allow-all --lite --output VirusSimulation --target x86_64-unknown-linux-gnu index.js
 
-## Web and NodeJS:
-   
+### Web and NodeJS
+
     deno bundle index.js > NodeJs.js
 
-
-# Graph Generation
+## Graph Generation
 
     pip3 install matplotlib numpy; python3 jsoninterpretter/index.py
