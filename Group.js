@@ -1,7 +1,7 @@
-import { Person } from './Person.js';
-import { GetNumberFromSquareArray, randomNumber } from './util.js';
+import { Person } from "./Person.js";
+import { getNumberFromSquareArray, randomNumber } from "./util.js";
 
-export class Group  {
+export default class Group  {
     Board = [];
     children = [];
     States = [];
@@ -13,7 +13,7 @@ export class Group  {
         this.Board.infected = []
 
         for (let i = 0; i < Math.sqrt(size); i++) {
-            this.Board.cells[i] = []
+            this.Board.cells[i] = [];
             for (let i2 = 0; i2 < Math.sqrt(size); i2++) {
                 this.Board.cells[i][i2] = new Person(i * Math.sqrt(size) + i2, this);
             }
@@ -21,7 +21,7 @@ export class Group  {
         let immunenum = 0
         while (immunenum !== immune) {
             const immunecell = randomNumber(0, size)
-            const coords = GetNumberFromSquareArray(immunecell, this.Board.cells.length ** 2)
+            const coords = getNumberFromSquareArray(immunecell, this.Board.cells.length ** 2)
             if (this.Board.cells[coords[0]][coords[1]].state !== this.Board.cells[coords[0]][coords[1]].states.Removed) {
                 this.Board.cells[coords[0]][coords[1]].state = this.Board.cells[coords[0]][coords[1]].states.Removed;
                 immunenum++;
@@ -31,23 +31,23 @@ export class Group  {
         let infectednum = 0
         while (infectednum !== infected) {
             const infectedcell = randomNumber(0, size)
-            const coords = GetNumberFromSquareArray(infectedcell, this.Board.cells.length ** 2)
+            const coords = getNumberFromSquareArray(infectedcell, this.Board.cells.length ** 2)
             if (this.Board.cells[coords[0]][coords[1]].state !== this.Board.cells[coords[0]][coords[1]].states.Removed) {
                 this.Board.cells [coords[0]][coords[1]].state = this.Board.cells[coords[0]][coords[1]].states.Infected;
-                this.Board.infected.push(this.Board.cells[coords[0]][coords[1]])
+                this.Board.infected.push(this.Board.cells[coords[0]][coords[1]]);
                 infectednum++;
             }
         }
 
-        this.States = [ this.makeClone(this.Board.cells) ]
+        this.States = [ this.makeClone(this.Board.cells) ];
 
-        this.RecalculateNeighbours()
+        this.RecalculateNeighbours();
     }
 
     RecalculateNeighbours() {
         this.children.forEach((value) => {
-            value.calculateNeighbours()
-        })
+            value.calculateNeighbours();
+        });
     }
 
     SampleVirus(iterations) {
@@ -58,13 +58,13 @@ export class Group  {
                 for (const neighbour in NewBoard.infected[infected].neighbours) {
                     if (NewBoard.infected[infected].neighbours[neighbour].state !== NewBoard.infected[infected].neighbours[neighbour].states.Removed)
                         if (NewBoard.infected[infected].neighbours[neighbour].state !== NewBoard.infected[infected].neighbours[neighbour].states.Infected) {
-                            NewBoard.infected[infected].neighbours[neighbour].state = NewBoard.infected[infected].neighbours[neighbour].states.Infected
-                            NewBoard.infected.push(NewBoard.infected[infected].neighbours[neighbour])
+                            NewBoard.infected[infected].neighbours[neighbour].state = NewBoard.infected[infected].neighbours[neighbour].states.Infected;
+                            NewBoard.infected.push(NewBoard.infected[infected].neighbours[neighbour]);
                         }
                 }
 
-            this.States.push(this.makeClone(NewBoard.cells))
-            this.RecalculateNeighbours()
+            this.States.push(this.makeClone(NewBoard.cells));
+            this.RecalculateNeighbours();
         }
 
         return this.States;
@@ -73,9 +73,9 @@ export class Group  {
     makeClone(Board){
         const output = []
         for (const column in Board) {
-            output[column] = []
+            output[column] = [];
             for (const row in Board[column]) {
-                output[column][row] = {"id": Board[column][row].id, "state": Board[column][row].state}
+                output[column][row] = {"id": Board[column][row].id, "state": Board[column][row].state};
             }
         }
         return output;
@@ -84,9 +84,9 @@ export class Group  {
     toString() {
         let outputStr = ""
         this.Board.cells.forEach((column) => {
-            outputStr += "\n"
+            outputStr += "\n";
             column.forEach((Person) => {
-                outputStr += Person.state
+                outputStr += Person.state;
             })
         })
         return outputStr;

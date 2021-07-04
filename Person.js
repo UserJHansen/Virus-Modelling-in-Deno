@@ -1,4 +1,4 @@
-import { GetNumberFromSquareArray } from './util.js';
+import { getNumberFromSquareArray } from './util.js';
 
 export class Person {
     id;
@@ -17,7 +17,7 @@ export class Person {
 
     calculateNeighbours() {
         this.neighbours = []
-        const coords = GetNumberFromSquareArray(this.id, this.group.Board.cells.length ** 2)
+        const coords = getNumberFromSquareArray(this.id, this.group.Board.cells.length ** 2)
         if (coords[0] === this.group.Board.cells.length - 1 || coords[0] === 0 || coords[1] === this.group.Board.cells.length - 1 || coords[1] === 0)
             switch (coords[0]) {
                 case this.group.Board.cells.length - 1:

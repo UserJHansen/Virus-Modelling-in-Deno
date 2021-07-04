@@ -6,7 +6,6 @@ import json
 
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy.polynomial import Polynomial
 
 if __name__ == '__main__':
     # Saved Graph

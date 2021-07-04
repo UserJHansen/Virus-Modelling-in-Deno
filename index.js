@@ -8,8 +8,8 @@ if (typeof Deno === "undefined" && typeof require !== "undefined") {
 
 var global = global || {}
 
-import { MakeString, CountInfected, roundOff } from './util.js'
-import { Group } from './Group.js'
+import { makeString, countInfected, roundOff } from './util.js'
+import Group from './Group.js'
 
 var iterations = 20
 var size = 64   // Must be Square
@@ -63,16 +63,16 @@ for (let a = 0; a < parts; a++) {
             for (const c in ArrayResults[a][b]) {
                 forGraphing[c + "count"] = forGraphing[c + "count"] || 0
                 forGraphing[Number(c)] = forGraphing[c] || 0
-                forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + CountInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
+                forGraphing[Number(c)] = ((forGraphing[c] * forGraphing[c + "count"]) + countInfected(ArrayResults[a][b][c][iterations - 1])) / (forGraphing[c + "count"] + 1)
                 forGraphing[c + "count"]++
                 if (LogPositions) BetterResults += "Part " + a + " Sample " + b + " With " + (Number(c)+1) + " Immune\n"
                 for (const d in ArrayResults[a][b][c]) {
-                    if (LogPositions) BetterResults += `Iteration ${Number(d)+1} \n ` + (MakeString(ArrayResults[a][b][c][d]) + "\n\n")
+                    if (LogPositions) BetterResults += `Iteration ${Number(d)+1} \n ` + (makeString(ArrayResults[a][b][c][d]) + "\n\n")
                     forProgressionGraphing[c + "count"] = forProgressionGraphing[c + "count"] || []
                     forProgressionGraphing[Number(c)] = forProgressionGraphing[c] || []
                     forProgressionGraphing[c + "count"][d] = forProgressionGraphing[c + "count"][d] || []
                     forProgressionGraphing[Number(c)][d] = forProgressionGraphing[c][d] || []
-                    forProgressionGraphing[Number(c)][d] = ((forProgressionGraphing[c][d] * forProgressionGraphing[c + "count"][d]) + CountInfected(ArrayResults[a][b][c][d])) / (forProgressionGraphing[c + "count"][d] + 1)
+                    forProgressionGraphing[Number(c)][d] = ((forProgressionGraphing[c][d] * forProgressionGraphing[c + "count"][d]) + countInfected(ArrayResults[a][b][c][d])) / (forProgressionGraphing[c + "count"][d] + 1)
                     forProgressionGraphing[c + "count"][d]++
                 }
             }

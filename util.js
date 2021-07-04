@@ -1,4 +1,4 @@
-export function GetNumberFromSquareArray(number, size) {
+export function getNumberFromSquareArray(number, size) {
     if (number === 0) {
         return [0,0]
     }
@@ -11,7 +11,7 @@ export function randomNumber(min, max) {
 }
 
 
-export function MakeString(Board) {
+export function makeString(Board) {
     let outputStr = ""
     Board.forEach((column) => {
         outputStr += "\n"
@@ -23,7 +23,7 @@ export function MakeString(Board) {
 }
 
 
-export function CountInfected(Board) {
+export function countInfected(Board) {
     let outputNum = 0
     Board.forEach((column) => {
         column.forEach((BoardPerson) => {
