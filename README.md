@@ -1,6 +1,6 @@
 # All-In-One Command
 
-    deno run --allow-write https://raw.githubusercontent.com/UserJHansen/Virus-Modelling-in-Deno/master/index.js; pip3 install matplotlib numpy; python3 jsoninterpretter/index.py
+     mkdir output; deno run --allow-write https://raw.githubusercontent.com/UserJHansen/Virus-Modelling-in-Deno/master/index.js; pip install matplotlib numpy; curl https://raw.githubusercontent.com/UserJHansen/Virus-Modelling-in-Deno/master/jsoninterpretter/index.py -o jsoninterpretter.py; python jsoninterpretter.py
 
 ## Requirements
 
